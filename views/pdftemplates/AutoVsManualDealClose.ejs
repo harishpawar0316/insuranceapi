@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table</title>
+    <style type="text/css" media="print">
+        * {
+            -webkit-print-color-adjust: exact !important;
+            /*Chrome, Safari */
+            color-adjust: exact !important;
+            /*Firefox*/
+        }
+    </style>
+    <style>
+        @font-face {
+            font-family: 'fontawesome3';
+            src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .fa3 {
+            display: inline-block;
+            font: normal normal normal 14px/1 fontawesome3;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        thead {
+            color: #fff;
+            background-color: #212529 !important;
+            border-color: #ffffff !important;
+        }
+
+        ul {
+            list-style-type: lower-roman;
+            text-align: center;
+            padding: 19px;
+        }
+
+        ul li div {
+            display: flex;
+            margin-top: 5px;
+            margin-bottom: 14px;
+        }
+
+        ul table {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr class="table-info">
+                <th scope="col">Total Number of Closed Deals (Auto & Manual- Number)</th>
+                <th scope="col">Policies issued through Auto (No SA Intervention) (Number)</th>
+                <th scope="col">Policies issued Manually (SA Intervention) (Number)</th>
+                <th scope="col">Auto vs. Manual (d-c)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (Object.keys(data).length> 0) { %>
+                <tr>
+                    <td>
+                        <%= data.totalLeadClosed ? data.totalLeadClosed.toFixed() : "-" %>
+                    </td>
+                    <td>
+                        <%= data.autoLeadClosed ? data.autoLeadClosed.toFixed() : "-" %>
+                    </td>
+                    <td>
+                        <%= data.manualLeadClosed ? data.manualLeadClosed.toFixed() : "-" %>
+                    </td>
+                    <td>
+                        <%= data.autoVsManualRatio ? data.autoVsManualRatio.toFixed() + "%" : "-" %>
+                    </td>
+                </tr>
+                <% } else { %>
+                    <tr>
+                        <td colspan="12" class="text-center">
+                            <strong>No Records Found</strong>
+                        </td>
+                    </tr>
+                    <% } %>
+        </tbody>
+    </table>
+
+
+</body>
+
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table</title>
+    <style type="text/css" media="print">
+        * {
+            -webkit-print-color-adjust: exact !important;
+            /*Chrome, Safari */
+            color-adjust: exact !important;
+            /*Firefox*/
+        }
+    </style>
+    <style>
+        body {
+            padding: 5px;
+        }
+
+        @font-face {
+            font-family: 'fontawesome3';
+            src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .fa3 {
+            display: inline-block;
+            font: normal normal normal 14px/1 fontawesome3;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        thead {
+            color: #fff;
+            background-color: #212529 !important;
+            border-color: #ffffff !important;
+        }
+
+        ul {
+            list-style-type: lower-roman;
+            text-align: center;
+            padding: 19px;
+        }
+
+        ul li div {
+            display: flex;
+            margin-top: 5px;
+            margin-bottom: 14px;
+        }
+
+        ul table {
+            margin-bottom: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr class="table-info">
+                    <th scope="col">Sr. No.</th>
+                    <th scope="col">Promotional Code No.</th>
+                    <th scope="col">Completed By</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (data.length> 0) { %>
+                    <% data.forEach(function(VAL, ind) { %>
+                        <tr>
+                            <td>
+                                <%= ind + 1 %>
+                            </td>
+                            <td>
+                                <%= VAL.description %>
+                            </td>
+                            <td>
+                                <% if (VAL.completed_by && VAL.completed_by.length> 0) { %>
+                                    <% VAL.completed_by.forEach(function(cb, index) { %>
+                                        <div>
+                                            <div>
+                                                <%= cb.user.name %>
+                                                    <%= index < VAL.completed_by.length - 1 ? ', ' : '' %>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                            <% } %>
+                            </td>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Sr. No.</th>
+                                        <th scope="col">Supervisor/Team</th>
+                                        <th scope="col">SA Name</th>
+                                        <th scope="col">Line of Business</th>
+                                        <th scope="col">Policy Type</th>
+                                        <th scope="col">Premium</th>
+                                        <th scope="col">Commission </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% VAL.completed_by.forEach(function(item, ind) { %>
+                                        <% item.lead.forEach(function(plan, pIndex, arr) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= pIndex + 1 %>
+                                                </td>
+                                                <%- SupervisorrowsPanHook(item.lead, 'supervisor_id' , pIndex, arr) %>
+                                                    <%- AgentrowsPanHook(item.lead, 'assigned_agent' , pIndex, arr) %>
+                                                        <td>
+                                                            <%= plan.type_of_policy ?
+                                                                plan.type_of_policy.line_of_business_name : '-' %>
+                                                        </td>
+                                                        <td>
+                                                            <%= PolicyTypeName(plan.plan_id ? plan.plan_id : null,
+                                                                plan.type_of_policy.line_of_business_name) %>
+                                                        </td>
+                                                        <td>
+                                                            <%= plan.final_price ? plan.final_price.toFixed(2) : 0 %>
+                                                        </td>
+                                                        <td>
+                                                            <%= plan.jdvComission ? plan.jdvComission.toFixed(2) : 0 %>
+                                                        </td>
+                                            </tr>
+                                            <% }); %>
+
+                                                <tr>
+                                                    <td colspan="5">Total</td>
+                                                    <td>
+                                                        <%= item.totalPremium ? item.totalPremium.toFixed(2) : 0 %>
+                                                    </td>
+                                                    <td>
+                                                        <%= item.totalCommission ? item.totalCommission.toFixed(2) : 0
+                                                            %>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
+                                </tbody>
+                            </table>
+                        </tr>
+                        <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        <strong>No Records Found</strong>
+                                    </td>
+                                </tr>
+                                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

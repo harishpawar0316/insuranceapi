@@ -1,0 +1,40 @@
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+const common_master_schema = new Schema({
+    line_of_business: { type: Array },
+    location: { type: Array },
+    plan_category: { type: Array },
+    nature_of_plan: { type: Array },
+    nationality: { type: Array },
+    standard_cover: { type: Array },
+    additional_cover: { type: Array },
+    usertype: { type: Array },
+    policy_type: { type: Array },
+    lead_status: { type: Array },
+    staff: { type: Array },
+    documents: { type: Array },
+    business_entity: { type: Array },
+    user_type_id:{
+        type:Schema.Types.ObjectId, ref: 'Admins'
+    },
+    testimonials: { type: Array },
+    compliance: { type: Array },
+    special_offers: { type: Array },
+    claims: { type: Array },
+    terms_conditions: { type: Array },
+    social_media_link: { type: Array },
+    motor_claim_question: { type: Array },
+    bank_details: { type: Array },
+    emergency_departments: { type: Array },
+    guidelines: { type: Array },
+    banner_image: { type: Array },
+    am_rating: { type: Array },
+    sp_rating: { type: Array },
+    be_commission: { type: Array },
+    vat: { type: Array },
+    be_discount: { type: Array },
+    discount_coupon: { type: Array },
+    best_plan: { type: Array },
+    reason_type: { type: Array },
+})
+module.exports.Common_master_permission = mongoose.model("Common_master_permission", common_master_schema)

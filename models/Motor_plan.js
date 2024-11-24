@@ -1,0 +1,43 @@
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+const MotorPlanSchema = new Schema({
+    line_of_business_id: { type: Schema.Types.ObjectId, ref: 'line_of_businesses' },
+    company_id: { type: Schema.Types.ObjectId, ref: 'companies' },
+    plan_name: { type: String },
+    policy_type_id : { type : Schema.Types.ObjectId, ref: 'policy_types' },
+    plan_category_id : { type : Schema.Types.ObjectId, ref: 'plan_categories' },
+    plan_label : { type: String },
+    nature_of_plan_id : { type : Schema.Types.ObjectId, ref: 'nature_of_plans' },
+    body_type : { type: Array },
+    repair_type_id : { type : Array },
+    electric_vehicle : { type: Number, default: 0 },
+    plan_for : { type: Array },
+    business_type_id : { type : Array },
+    car_value : { type: Array },
+    rate : { type: String },
+    min_premium : { type: Number },
+    tpl_min_premium: { type: Array }, 
+    excess : { type: Array },
+    age_or_topup : { type: Array },
+    drivingexp_or_topup : { type: Array },
+    homedrivingexp_or_topup : { type: Array },
+    claimyears_or_topup : { type: Array },
+    plan_for_gcc_spec_name_or_topup : { type: Array },
+    nationality_or_topup : { type: Array },
+    make_motor : { type: Array },
+    last_year_policy_type_or_topup : { type: Array },
+    age_of_the_car_or_topup : { type: Array },
+    add_op_con_desc : { type: Array },
+    jdv_comm : { type: String },
+    sale_person_comm : { type: String },
+    policywordings_file : {  type: [String], default: []},
+    standard_cover_arr: { type: Array},
+    additional_cover_arr: { type: Array},
+    non_applicable_nationality: { type: Array},
+    black_listed_vehicle: { type: Array},
+    status : { type: Number, default: 1 },
+    location: { type: Array },
+    plan_created_by:{type:mongoose.Types.ObjectId}
+});
+
+module.exports = mongoose.model('Motor_plan', MotorPlanSchema)

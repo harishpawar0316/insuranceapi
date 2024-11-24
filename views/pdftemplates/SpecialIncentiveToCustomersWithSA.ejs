@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        <% title %>
+    </title>
+    <style type="text/css" media="print">
+        * {
+            -webkit-print-color-adjust: exact !important;
+            /*Chrome, Safari */
+            color-adjust: exact !important;
+            /*Firefox*/
+        }
+    </style>
+    <style>
+        @font-face {
+            font-family: 'fontawesome3';
+            src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .fa3 {
+            display: inline-block;
+            font: normal normal normal 14px/1 fontawesome3;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        thead {
+            color: #fff;
+            background-color: #212529 !important;
+            border-color: #ffffff !important;
+        }
+
+        ul {
+            list-style-type: lower-roman;
+            padding: 19px;
+        }
+
+        ul li div {
+            display: flex;
+            margin-top: 5px;
+            margin-bottom: 14px;
+        }
+
+        ul table {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <% data.forEach(function(dataItem, index) { %>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr. No.</th>
+                    <th scope="col">Supervisor/Team</th>
+                    <th scope="col">Total Commission</th>
+                    <th scope="col">Total Premium</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <%= index + 1 %>
+                    </td>
+                    <td>
+
+                        <%= dataItem.supervisor.name %>
+                    </td>
+
+                    <td>
+                        <%= dataItem.totalJDVCommission ? dataItem.totalJDVCommission?.toFixed(2) : "-" %>
+                    </td>
+                    <td>
+                        <%= dataItem.totalPremium ? dataItem.totalPremium?.toFixed(2) : "-" %>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+        <% if (dataItem.lobs.length> 0) { %>
+            <ul>
+                <% dataItem.lobs.forEach(function(lob, lobIndex) { %>
+                    <li>
+                        <strong>Line Of Business :</strong>
+                        <span>
+                            <%= lob.lob_name %>
+                        </span>
+                    </li>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sr. No.</th>
+                                <th scope="col">Promotional Code No</th>
+                                <th scope="col">SA Name</th>
+                                <th scope="col">Policy Type</th>
+                                <th scope="col">Premium</th>
+                                <th scope="col">JDV Comm</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (lob.plans.length> 0) { %>
+                                <% lob.plans.forEach(function(plan, pIndex,arr) { %>
+                                    <tr>
+                                        <td>
+                                            <%= pIndex + 1 %>
+                                        </td>
+                                        <td>
+                                            <%= plan.discountId && plan.discountId.description ?
+                                                plan.discountId.description : "-" %>
+                                        </td>
+                                        <%- AgentrowsPanHook(lob.plans, 'agent_name' , pIndex, arr) %>
+                                            <td>
+                                                <%= PolicyTypeName( plan.planDetails ? plan.planDetails : null,
+                                                    lob.lob_name) %>
+                                            </td>
+                                            <td>
+                                                <%= plan.premium ? plan.premium?.toFixed(2) : 0 %>
+                                            </td>
+                                            <td>
+                                                <%= plan.jdvCommission ? plan.jdvCommission?.toFixed(2) : "-" %>
+                                            </td>
+                                    </tr>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="5">
+                                                    <strong>No Records Found</strong>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
+                        <% if (lob.plans.length> 0) { %>
+                            <tr style="background-color: #dddddd;">
+                                <td colspan="4">
+                                    Total
+                                </td>
+                                <td>
+                                    <%= lob.totalPremium?.toFixed(2) %>
+                                </td>
+                                <td>
+                                    <%= lob.totalJdvCommission?.toFixed(2) %>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </table>
+
+                    <% }); %>
+            </ul>
+            <% } else { %>
+                <div>
+                    <strong>No Records Found</strong>
+                </div>
+                <% } %>
+
+                    <% }); %>
+
+
+
+
+</body>
+
+</html>

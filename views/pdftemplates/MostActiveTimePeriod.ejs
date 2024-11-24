@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <% title %>
+    </title>
+    <style type="text/css" media="print">
+        * {
+            -webkit-print-color-adjust: exact !important;
+            /*Chrome, Safari */
+            color-adjust: exact !important;
+            /*Firefox*/
+        }
+    </style>
+    <style>
+        @font-face {
+            font-family: 'fontawesome3';
+            src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .fa3 {
+            display: inline-block;
+            font: normal normal normal 14px/1 fontawesome3;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        thead {
+            color: #fff;
+            background-color: #212529 !important;
+            border-color: #ffffff !important;
+        }
+
+        ul {
+            list-style-type: lower-roman;
+            text-align: center;
+            padding: 19px;
+        }
+
+        ul li div {
+            display: flex;
+            margin-top: 5px;
+            margin-bottom: 14px;
+        }
+
+        ul table {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr class="table-info">
+                <th scope="col">Sr. No.</th>
+                <th scope="col">Date</th>
+                <th scope="col">Hourly Time</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Contact No.</th>
+                <th scope="col">Customer Email</th>
+                <th scope="col">Line of Business</th>
+                <th scope="col">Policy Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (data.length> 0) { %>
+                <% data.forEach(function(item, index) { %>
+                    <tr>
+                        <td>
+                            <%= index + 1 %>
+                        </td>
+                        <td>
+                            <%= item.new_lead_timestamp ? new Date(item.new_lead_timestamp).toLocaleDateString("en-UK")
+                                : "-" %>
+                        </td>
+                        <td>
+                            <%= item.hours %>:00
+                        </td>
+                        <td>
+                            <%= item.name %>
+                        </td>
+                        <td>
+                            <%= item.phoneno %>
+                        </td>
+                        <td>
+                            <%= item.email %>
+                        </td>
+                        <td>
+                            <%= item.lob_name %>
+                        </td>
+                        <td>
+
+                            <%= PolicyTypeName(item.plan_detail ? item.plan_detail : null, item.lob_name ) %>
+                        </td>
+                    </tr>
+                    <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    <strong>No Records Found</strong>
+                                </td>
+                            </tr>
+                            <% } %>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

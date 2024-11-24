@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <style type="text/css" media="print">
+        * {
+            -webkit-print-color-adjust: exact !important;
+            /*Chrome, Safari */
+            color-adjust: exact !important;
+            /*Firefox*/
+        }
+    </style>
+    <style>
+        @font-face {
+            font-family: 'fontawesome3';
+            src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .fa3 {
+            display: inline-block;
+            font: normal normal normal 14px/1 fontawesome3;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        thead {
+            color: #fff;
+            background-color: #212529 !important;
+            border-color: #ffffff !important;
+        }
+
+        ul {
+            list-style-type: lower-roman;
+            text-align: center;
+            padding: 19px;
+        }
+
+        ul li div {
+            display: flex;
+            margin-top: 5px;
+            margin-bottom: 14px;
+        }
+
+        ul table {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        <%= title %>
+    </h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Serial No.</th>
+                <th>Day & Date</th>
+                <th>Deal Closed Count</th>
+                <th>LOB</th>
+                <th>Policy Types</th>
+                <th>Issued Dates</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% let serialNumber=1; %>
+                <% data.forEach((item,index)=> { %>
+                    <% // Collect unique policy types and issued dates %>
+                        <% let policyTypes=[]%>
+                            <% let issuedDates=[]; %>
+                                <% let lobName=[] %>
+
+                                    <% item.plan_name.forEach(plan=> { %>
+                                        <% let policyType=PolicyTypeName( plan.plan ? plan.plan : null , plan.lob) %>
+                                            <% policyTypes.push(policyType); %>
+                                                <% lobName.push(plan.lob); %>
+
+                                                    <% issuedDates.push(plan.policy_issued_date ? new
+                                                        Date(plan.policy_issued_date).toLocaleDateString() : "-" ); %>
+                                                        <% }); %>
+                                                            <% let allIssuedDates=issuedDates %>
+
+
+                                                                <!-- Parent Row -->
+                                                                <tr class="parent">
+                                                                    <td>
+                                                                        <%= index +1 %>
+                                                                    </td> <!-- Empty cell for serial number -->
+                                                                    <td>
+                                                                        <%= item._id %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= item.count %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= lobName %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= policyTypes %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= allIssuedDates %>
+                                                                    </td>
+                                                                </tr>
+
+
+                                                                <% }) %>
+        </tbody>
+    </table>
+</body>
+
+</html>
