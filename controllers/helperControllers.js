@@ -641,6 +641,36 @@ module.exports = {
       console.log("Error", error);
     }
   },
+  getSocialMediaLinkByName: async (req, res) => {
+    try {
+        let name = req.query?.name;
+        if (!name) {
+            return res
+                .status(400)
+                .json({ status: 400, message: "Name is required", data: {} });
+        }
+
+        let result = await socialMediaLinksModels.findOne({ socialMediaName: name });
+        if (!result) {
+            return res
+                .status(404)
+                .json({ status: 404, message: "Data not found", data: {} });
+        }
+
+        return res
+            .status(200)
+            .json({
+                status: 200,
+                message: "Data found successfully!",
+                data: result,
+            });
+    } catch (error) {
+        console.error("Error:", error);
+        return res
+            .status(500)
+            .json({ status: 500, message: "Internal Server Error", data: {} });
+    }
+  },
   addNewsLetter: async (req, res) => {
     try {
       let payload = req.body;

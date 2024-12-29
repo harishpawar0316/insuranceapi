@@ -1933,6 +1933,7 @@ router.put("/lmpBankDetail", HelperController.updateLmpBankDetails);
 router.post("/socialMediaLink", HelperController.addSocialMediaLink);
 router.get("/SocialMediaLinks", HelperController.getSocialMediaLink);
 router.get("/socialMediaLink", HelperController.getSocialMediaLinkById);
+router.get("/socialMediaLinkName", HelperController.getSocialMediaLinkByName);
 router.put("/socialMediaLink", HelperController.updateSocialMediaLink);
 
 //News Letter ###################NewsLetter done
