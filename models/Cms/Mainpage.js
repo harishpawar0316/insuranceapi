@@ -8,6 +8,9 @@ const MainpageSchema = new Schema({
     know_more_banner: { type: Array },
     know_more_content: { type: String },
     howToReachUs: { type: String },
+    email: { type: String },
+    call_us: { type: String },
+    whastapp: { type: String },
     status: { type: Number, default: 1 },
     },
     { timestamps: true }

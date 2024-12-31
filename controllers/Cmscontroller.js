@@ -101,7 +101,10 @@ module.exports = {
                     know_more_header: payload.know_more_header,
                     know_more_content: payload.know_more_content,
                     know_more_banner: know_more_bannerphoto,
-                    howToReachUs: payload.howToReachUs
+                    howToReachUs: payload.howToReachUs,
+                    email: payload.email,
+                    call_us: payload.callus,
+                    whastapp: payload.whatsapp
                 },
                 { new: true }
             );
